@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,11 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Cargo.Core;
+using AutoMapper;
+using Cargo.Persistence;
+using System.Data.SqlClient;
 
-namespace angular_crud_app
+namespace Cargo
 {
     public class Startup
     {
+        private string _connection = null;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -20,6 +27,18 @@ namespace angular_crud_app
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var builder = new SqlConnectionStringBuilder(
+            Configuration.GetConnectionString("Default"));
+            builder.Password = Configuration["DbPassword"];
+            _connection = builder.ConnectionString;
+
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddAutoMapper();
+
+            services.AddDbContext<CargoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory

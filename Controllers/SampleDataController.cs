@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace angular_crud_app.Controllers
+namespace Cargo.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller

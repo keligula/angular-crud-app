@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace angular_crud_app.Pages
+namespace Cargo.Pages
 {
     public class ErrorModel : PageModel
     {

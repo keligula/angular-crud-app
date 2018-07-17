@@ -231,3 +231,6 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+# db backup
+cargo-01.tar
