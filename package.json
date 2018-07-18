@@ -1,0 +1,24 @@
+{
+  "name": "angular-crud-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "raven-js": "^3.26.3",
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keligula/angular-crud-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keligula/angular-crud-app/issues"
+  },
+  "homepage": "https://github.com/keligula/angular-crud-app#readme"
+}
