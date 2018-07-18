@@ -1,8 +1,9 @@
+import * as Raven from "raven-js";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
-import { NgModule } from "@angular/core";
+import { NgModule, ErrorHandler } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
@@ -15,6 +16,11 @@ import { NavMenuComponent } from "./components/nav-menu/nav-menu.component";
 import { VehicleFormComponent } from "./components/vehicle-form/vehicle-form.component";
 
 import { VehicleService } from "./services/vehicle.service";
+import { AppErrorHandler } from "./app.error-handler";
+
+Raven.config(
+  "https://3a076fd13a50424aa436b3bafbfbe21c@sentry.io/1244999"
+).install();
 
 @NgModule({
   declarations: [
@@ -35,11 +41,15 @@ import { VehicleService } from "./services/vehicle.service";
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
       { path: "vehicles/new", component: VehicleFormComponent },
+      { path: "vehicles/:id", component: VehicleFormComponent },
       { path: "counter", component: CounterComponent },
       { path: "fetch-data", component: FetchDataComponent }
     ])
   ],
-  providers: [VehicleService],
+  providers: [
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    VehicleService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

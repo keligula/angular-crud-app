@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cargo.Core;
 using Cargo.Core.Models;
@@ -34,6 +35,16 @@ namespace Cargo.Persistence
         public void Remove(Vehicle vehicle)
         {
             context.Remove(vehicle);
+        }
+
+        public async Task<IEnumerable<Vehicle>> GetVehicles()
+        {
+            return await context.Vehicles
+                .Include(v => v.Model)
+                    .ThenInclude(v => v.Make)
+                .Include(v => v.Features)
+                    .ThenInclude(vf => vf.Feature)
+                .ToListAsync();
         }
     }
 }
