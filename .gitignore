@@ -235,3 +235,4 @@ _Pvt_Extensions
 # db backup
 cargo-01.tar
 
+angular-crud-app/appsettings.Development.json
