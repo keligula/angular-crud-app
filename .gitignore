@@ -234,3 +234,5 @@ _Pvt_Extensions
 
 # db backup
 cargo-01.tar
+
+appsettings.Development.json
