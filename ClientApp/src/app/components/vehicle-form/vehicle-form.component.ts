@@ -15,6 +15,7 @@ import { ToastrService } from "ngx-toastr";
 export class VehicleFormComponent implements OnInit {
   makes: any[];
   models: any[];
+  features: any[];
   vehicle: SaveVehicle = {
     id: 0,
     makeId: 0,
@@ -27,7 +28,6 @@ export class VehicleFormComponent implements OnInit {
       phone: ""
     }
   };
-  features: any[];
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +36,7 @@ export class VehicleFormComponent implements OnInit {
     private toastrService: ToastrService
   ) {
     route.params.subscribe(p => {
-      this.vehicle.id = +p["id"];
+      this.vehicle.id = +p["id"] || 0;
     });
   }
 

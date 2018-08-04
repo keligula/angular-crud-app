@@ -19,6 +19,8 @@ import { VehicleListComponent } from "./components/vehicle-list/vehicle-list.com
 import { VehicleService } from "./services/vehicle.service";
 import { AppErrorHandler } from "./app.error-handler";
 
+//import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 Raven.config(
   "https://3a076fd13a50424aa436b3bafbfbe21c@sentry.io/1244999"
 ).install();
@@ -40,6 +42,7 @@ Raven.config(
     ToastrModule.forRoot(),
     HttpClientModule,
     HttpModule,
+    //FontAwesomeModule,
     RouterModule.forRoot([
       {
         path: "",
