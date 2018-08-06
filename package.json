@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@angular/cli": "^6.0.8",
+    "debug": "^3.1.0",
     "raven-js": "^3.26.3",
     "underscore": "^1.9.1"
   },

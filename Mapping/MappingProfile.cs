@@ -11,6 +11,7 @@ namespace Cargo.Mapping
         public MappingProfile()
         {
             // Domain to API Resource
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();

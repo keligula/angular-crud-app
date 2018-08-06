@@ -15,11 +15,10 @@ import { HomeComponent } from "./components/home/home.component";
 import { NavMenuComponent } from "./components/nav-menu/nav-menu.component";
 import { VehicleFormComponent } from "./components/vehicle-form/vehicle-form.component";
 import { VehicleListComponent } from "./components/vehicle-list/vehicle-list.component";
+import { PaginationComponent } from "./components/shared/pagination.component";
 
 import { VehicleService } from "./services/vehicle.service";
 import { AppErrorHandler } from "./app.error-handler";
-
-//import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 Raven.config(
   "https://3a076fd13a50424aa436b3bafbfbe21c@sentry.io/1244999"
@@ -33,7 +32,8 @@ Raven.config(
     HomeComponent,
     NavMenuComponent,
     VehicleFormComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -42,7 +42,6 @@ Raven.config(
     ToastrModule.forRoot(),
     HttpClientModule,
     HttpModule,
-    //FontAwesomeModule,
     RouterModule.forRoot([
       {
         path: "",
