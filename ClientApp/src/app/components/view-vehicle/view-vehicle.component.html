@@ -1,0 +1,39 @@
+<h2>Vehicle View</h2>
+
+<!-- Navigation tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active">
+    <a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">Vehicle</a>
+  </li>
+  <li role="presentation">
+    <a href="#photos" aria-controls="photos" role="tab" data-toggle="tab">Photos</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content" *ngIf="vehicle">
+  <div role="tabpanel" class="tab-pane active" id="basic">
+    <h3>Vehicle Basics</h3>
+    <ul>
+      <li>Make: {{ vehicle.make.name }}</li>
+      <li>Model: {{ vehicle.model.name }}</li>
+      <li>Registered: {{ vehicle.isRegistered ? 'Yes' : 'No' }}</li>
+    </ul>
+    <h3>Features</h3>
+    <ul>
+      <li *ngFor="let f of vehicle.features">{{ f.name }}</li>
+    </ul>
+    <h3>Contact</h3>
+    <ul>
+      <li>Contact Name: {{ vehicle.contact.name }}</li>
+      <li>Contact Phone: {{ vehicle.contact.phone }}</li>
+      <li>Contact Email: {{ vehicle.contact.email }}</li>
+    </ul>
+    <br/>
+    <p>
+      <a class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
+      <a class="btn btn-danger" (click)="delete()">Delete</a>
+      <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
+    </p>
+  </div>
+</div>

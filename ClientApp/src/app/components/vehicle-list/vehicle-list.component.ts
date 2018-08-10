@@ -17,10 +17,10 @@ export class VehicleListComponent implements OnInit {
   };
   columns = [
     { title: "Id" },
-    { title: "Contact Name", key: "contactName", isSortable: true },
     { title: "Make", key: "make", isSortable: true },
     { title: "Model", key: "model", isSortable: true },
-    { title: "Edit" }
+    { title: "Contact Name", key: "contactName", isSortable: true },
+    {}
   ];
 
   constructor(private vehicleService: VehicleService) {}

@@ -93,29 +93,18 @@ export class VehicleFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.vehicle.id) {
-      this.vehicleService.update(this.vehicle).subscribe(x => {
-        this.toastrService.success(
-          "Your vehicle has been updated!",
-          "Success",
-          {
-            timeOut: 5000,
-            positionClass: "toast-center-center",
-            tapToDismiss: true,
-            onActivateTick: true
-          }
-        );
-      });
-    } else {
-      this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
-    }
-  }
+    var result$ = this.vehicle.id
+      ? this.vehicleService.update(this.vehicle)
+      : this.vehicleService.create(this.vehicle);
 
-  delete() {
-    if (confirm("Are you sure you want to delete this vehicle?")) {
-      this.vehicleService.delete(this.vehicle.id).subscribe(x => {
-        this.router.navigate(["/"]);
+    result$.subscribe(vehicle => {
+      this.toastrService.success("Your vehicle has been updated!", "Success", {
+        timeOut: 5000,
+        positionClass: "toast-center-center",
+        tapToDismiss: true,
+        onActivateTick: true
       });
-    }
+      this.router.navigate(["/vehicles/", vehicle.id]);
+    });
   }
 }
