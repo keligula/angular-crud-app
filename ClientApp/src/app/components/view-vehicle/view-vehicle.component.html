@@ -1,39 +1,50 @@
 <h2>Vehicle View</h2>
+<div>
+  <!-- Navigation tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" [class.active]="tabName == 'vehicle'">
+      <a aria-controls="basic" role="tab" data-toggle="tab" (click)="onNavClick('vehicle')">Vehicle</a>
+    </li>
+    <li role="presentation" [class.active]="tabName == 'photos'">
+      <a aria-controls="photos" role="tab" data-toggle="tab" (click)="onNavClick('photos')">Photos</a>
+    </li>
+  </ul>
 
-<!-- Navigation tabs -->
-<ul class="nav nav-tabs" role="tablist">
-  <li role="presentation" class="active">
-    <a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">Vehicle</a>
-  </li>
-  <li role="presentation">
-    <a href="#photos" aria-controls="photos" role="tab" data-toggle="tab">Photos</a>
-  </li>
-</ul>
-
-<!-- Tab panes -->
-<div class="tab-content" *ngIf="vehicle">
-  <div role="tabpanel" class="tab-pane active" id="basic">
-    <h3>Vehicle Basics</h3>
-    <ul>
-      <li>Make: {{ vehicle.make.name }}</li>
-      <li>Model: {{ vehicle.model.name }}</li>
-      <li>Registered: {{ vehicle.isRegistered ? 'Yes' : 'No' }}</li>
-    </ul>
-    <h3>Features</h3>
-    <ul>
-      <li *ngFor="let f of vehicle.features">{{ f.name }}</li>
-    </ul>
-    <h3>Contact</h3>
-    <ul>
-      <li>Contact Name: {{ vehicle.contact.name }}</li>
-      <li>Contact Phone: {{ vehicle.contact.phone }}</li>
-      <li>Contact Email: {{ vehicle.contact.email }}</li>
-    </ul>
-    <br/>
-    <p>
-      <a class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
-      <a class="btn btn-danger" (click)="delete()">Delete</a>
-      <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
-    </p>
+  <!-- Tab panes -->
+  <div class="tab-content" *ngIf="vehicle">
+    <div role="tabpanel" *ngIf="tabName =='vehicle'">
+      <h3>Vehicle Basics</h3>
+      <ul>
+        <li>Make: {{ vehicle.make.name }}</li>
+        <li>Model: {{ vehicle.model.name }}</li>
+        <li>Registered: {{ vehicle.isRegistered ? 'Yes' : 'No' }}</li>
+      </ul>
+      <h3>Features</h3>
+      <ul>
+        <li *ngFor="let f of vehicle.features">{{ f.name }}</li>
+      </ul>
+      <h3>Contact</h3>
+      <ul>
+        <li>Contact Name: {{ vehicle.contact.name }}</li>
+        <li>Contact Phone: {{ vehicle.contact.phone }}</li>
+        <li>Contact Email: {{ vehicle.contact.email }}</li>
+      </ul>
+      <br/>
+      <p>
+        <a class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
+        <a class="btn btn-danger" (click)="delete()">Delete</a>
+        <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
+      </p>
+    </div>
+    <div role="tabpanel" *ngIf="tabName == 'photos'">
+      <h2>Photos</h2>
+      <input type="file" (change)="uploadPhoto()" #fileInput>
+      <div class="progress" *ngIf="progress && progress.percentage < 100">
+        <div class="progress-bar" [style.width]="progress.percentage + '%'">
+          <span class="sr-only">{{progress.percentage}}% Complete</span>
+        </div>
+      </div>
+      <img *ngFor="let photo of photos" src="/uploads/{{ photo.fileName }}" class="img-thumbnail">
+    </div>
   </div>
 </div>

@@ -10,6 +10,7 @@ using Cargo.Core;
 using AutoMapper;
 using Cargo.Persistence;
 using System.Data.SqlClient;
+using Cargo.Core.Models;
 
 namespace Cargo
 {
@@ -32,7 +33,9 @@ namespace Cargo
             builder.Password = Configuration["DbPassword"];
             _connection = builder.ConnectionString;
 
+            services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper();

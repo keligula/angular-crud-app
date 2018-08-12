@@ -236,3 +236,6 @@ _Pvt_Extensions
 cargo-01.tar
 
 appsettings.Development.json
+
+# uploads folder for photos
+/wwwroot/uploads

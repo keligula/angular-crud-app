@@ -2,7 +2,7 @@ import * as Raven from "raven-js";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { HttpModule } from "@angular/http";
+import { HttpModule, BrowserXhr } from "@angular/http";
 import { NgModule, ErrorHandler } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -18,8 +18,13 @@ import { VehicleListComponent } from "./components/vehicle-list/vehicle-list.com
 import { ViewVehicleComponent } from "./components/view-vehicle/view-vehicle.component";
 import { PaginationComponent } from "./components/shared/pagination.component";
 
+import { PhotoService } from "./services/photo.service";
 import { VehicleService } from "./services/vehicle.service";
 import { AppErrorHandler } from "./app.error-handler";
+import {
+  BrowserXhrWithProgress,
+  ProgressService
+} from "./services/progress.service";
 
 Raven.config(
   "https://3a076fd13a50424aa436b3bafbfbe21c@sentry.io/1244999"
@@ -60,7 +65,10 @@ Raven.config(
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
-    VehicleService
+    { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
+    VehicleService,
+    PhotoService,
+    ProgressService
   ],
   bootstrap: [AppComponent]
 })

@@ -10,14 +10,14 @@ export class AppErrorHandler implements ErrorHandler {
   }
 
   handleError(error: any): void {
-    if (!isDevMode()) Raven.captureException(error.originalError || error);
-    else throw error;
-
-    this.toastrService.error("Please resubmit the form.", "Error", {
+    this.toastrService.error("An unexpected error has occurred.", "Error", {
       timeOut: 5000,
       positionClass: "toast-center-center",
       tapToDismiss: true,
       onActivateTick: true
     });
+
+    if (!isDevMode()) Raven.captureException(error.originalError || error);
+    else throw error;
   }
 }
