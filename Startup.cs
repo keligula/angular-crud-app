@@ -11,6 +11,7 @@ using AutoMapper;
 using Cargo.Persistence;
 using System.Data.SqlClient;
 using Cargo.Core.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Cargo
 {
@@ -44,6 +45,17 @@ namespace Cargo
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://cargoproject.auth0.com/";
+                options.Audience = "https://api.cargo.com";
+            });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -67,6 +79,8 @@ namespace Cargo
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

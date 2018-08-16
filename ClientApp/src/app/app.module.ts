@@ -25,6 +25,8 @@ import {
   BrowserXhrWithProgress,
   ProgressService
 } from "./services/progress.service";
+import { AuthService } from "./services/auth.service";
+import { AuthGuardService } from "./services/auth-guard.service";
 
 Raven.config(
   "https://3a076fd13a50424aa436b3bafbfbe21c@sentry.io/1244999"
@@ -50,25 +52,25 @@ Raven.config(
     HttpClientModule,
     HttpModule,
     RouterModule.forRoot([
-      {
-        path: "",
-        component: HomeComponent,
-        pathMatch: "full"
-      },
+      { path: "", redirectTo: "vehicles", pathMatch: "full" },
       { path: "vehicles/new", component: VehicleFormComponent },
       { path: "vehicles/edit/:id", component: VehicleFormComponent },
       { path: "vehicles/:id", component: ViewVehicleComponent },
       { path: "vehicles", component: VehicleListComponent },
+      { path: "home", component: HomeComponent },
       { path: "counter", component: CounterComponent },
-      { path: "fetch-data", component: FetchDataComponent }
+      { path: "fetch-data", component: FetchDataComponent },
+      { path: "**", redirectTo: "home" }
     ])
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
     { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
-    VehicleService,
+    AuthService,
+    AuthGuardService,
     PhotoService,
-    ProgressService
+    ProgressService,
+    VehicleService
   ],
   bootstrap: [AppComponent]
 })

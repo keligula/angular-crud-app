@@ -4,6 +4,7 @@ using AutoMapper;
 using Cargo.Controllers.Resources;
 using Cargo.Core.Models;
 using Cargo.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
