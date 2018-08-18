@@ -31,14 +31,14 @@
       </ul>
       <br/>
       <p>
-        <a class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
-        <a class="btn btn-danger" (click)="delete()">Delete</a>
+        <a *ngIf="auth.isAuthenticated()" class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
+        <a *ngIf="auth.isAuthenticated()" class="btn btn-danger" (click)="delete()">Delete</a>
         <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
       </p>
     </div>
     <div role="tabpanel" *ngIf="tabName == 'photos'">
       <h2>Photos</h2>
-      <input type="file" (change)="uploadPhoto()" #fileInput>
+      <input *ngIf="auth.isAuthenticated()" type="file" (change)="uploadPhoto()" #fileInput>
       <div class="progress" *ngIf="progress && progress.percentage < 100">
         <div class="progress-bar" [style.width]="progress.percentage + '%'">
           <span class="sr-only">{{progress.percentage}}% Complete</span>

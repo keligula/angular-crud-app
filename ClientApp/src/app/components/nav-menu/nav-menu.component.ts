@@ -7,9 +7,7 @@ import { Component } from "@angular/core";
   styleUrls: ["./nav-menu.component.css"]
 })
 export class NavMenuComponent {
-  constructor(private auth: AuthService) {
-    auth.handleAuthentication();
-  }
+  constructor(private auth: AuthService) {}
   isExpanded = false;
 
   collapse() {

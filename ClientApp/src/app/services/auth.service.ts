@@ -1,3 +1,4 @@
+import { JwtHelper } from "angular2-jwt";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { filter } from "rxjs/operators";
@@ -7,35 +8,57 @@ import * as auth0 from "auth0-js";
 
 @Injectable()
 export class AuthService {
-  requestedScopes: string = "openid profile read:messages write:messages";
+  requestedScopes: string = "openid email profile";
 
   auth0 = new auth0.WebAuth({
     clientID: "19yD4i0WGP1W7b1Pi7u06wWK8rf5g03F",
     domain: "cargoproject.auth0.com",
-    responseType: "token id_token",
-    audience: "https://cargoproject.auth0.com/userinfo",
+    responseType: "token",
+    audience: "https://api.cargo.com",
     redirectUri: "https://localhost:5001/callback",
     scope: this.requestedScopes
   });
-  userProfile: any;
+  profile: any;
+  private roles: string[] = [];
 
-  constructor(public router: Router) {}
+  constructor(public router: Router) {
+    this.handleAuthentication();
+    this.readUserFromLocalStorage();
+  }
+
+  private readUserFromLocalStorage() {
+    this.profile = JSON.parse(localStorage.getItem("profile"));
+
+    var token = localStorage.getItem("token");
+    if (token) {
+      var jwtHelper = new JwtHelper();
+      var decodedToken = jwtHelper.decodeToken(token);
+      this.roles = decodedToken["https://cargo.com/roles"] || [];
+    }
+  }
 
   public login(): void {
     this.auth0.authorize();
   }
 
+  public isInRole(roleName) {
+    return this.roles.indexOf(roleName) > -1;
+  }
+
   public handleAuthentication(): void {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        window.location.hash = "";
-        this.setSession(authResult);
-        this.router.navigate(["/vehicles"]);
-      } else if (err) {
-        this.router.navigate(["/vehicles"]);
-        console.log(err);
+    this.auth0.parseHash(
+      { hash: window.location.hash, _idTokenVerification: false },
+      (err, authResult) => {
+        if (authResult && authResult.accessToken) {
+          window.location.hash = "";
+          this.setSession(authResult);
+          this.router.navigate(["/vehicles"]);
+        } else if (err) {
+          this.router.navigate(["/home"]);
+          console.log(err);
+        }
       }
-    });
+    );
   }
 
   private setSession(authResult): void {
@@ -44,23 +67,24 @@ export class AuthService {
       authResult.expiresIn * 1000 + new Date().getTime()
     );
     const scopes = authResult.scope || this.requestedScopes || "";
+    const profile = authResult.accessToken.profile || this.profile || "";
 
-    localStorage.setItem("access_token", authResult.accessToken);
-    localStorage.setItem("id_token", authResult.idToken);
+    localStorage.setItem("token", authResult.accessToken);
     localStorage.setItem("expires_at", expiresAt);
     localStorage.setItem("scopes", JSON.stringify(scopes));
-  }
+    localStorage.setItem("profile", JSON.stringify(profile));
 
-  public userHasScopes(scopes: Array<string>): boolean {
-    const grantedScopes = JSON.parse(localStorage.getItem("scopes")).split(" ");
-    return scopes.every(scope => grantedScopes.includes(scope));
+    this.readUserFromLocalStorage();
   }
 
   public logout(): void {
     // Remove tokens and expiry time from localStorage
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("id_token");
+    localStorage.removeItem("token");
     localStorage.removeItem("expires_at");
+    localStorage.removeItem("scopes");
+    localStorage.removeItem("profile");
+    this.profile = null;
+    this.roles = [];
     // Go back to the home route
     this.router.navigate(["/home"]);
   }
@@ -70,20 +94,5 @@ export class AuthService {
     // Access Token's expiry time
     const expiresAt = JSON.parse(localStorage.getItem("expires_at") || "{}");
     return new Date().getTime() < expiresAt;
-  }
-
-  public getProfile(cb): void {
-    const accessToken = localStorage.getItem("access_token");
-    if (!accessToken) {
-      throw new Error("Access Token must exist to fetch profile");
-    }
-
-    const self = this;
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
-      if (profile) {
-        self.userProfile = profile;
-      }
-      cb(err, profile);
-    });
   }
 }

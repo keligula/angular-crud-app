@@ -2,7 +2,7 @@ import * as _ from "underscore";
 import { Component, OnInit } from "@angular/core";
 import { VehicleService } from "../../services/vehicle.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import "rxjs/add/observable/forkJoin";
 import { SaveVehicle, Vehicle } from "../../models/vehicle";
 import { ToastrService } from "ngx-toastr";

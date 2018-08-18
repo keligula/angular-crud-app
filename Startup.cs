@@ -12,6 +12,7 @@ using Cargo.Persistence;
 using System.Data.SqlClient;
 using Cargo.Core.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Cargo.Controllers;
 
 namespace Cargo
 {
@@ -54,6 +55,11 @@ namespace Cargo
             {
                 options.Authority = "https://cargoproject.auth0.com/";
                 options.Audience = "https://api.cargo.com";
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.RequireAdminRole, policy => policy.RequireClaim("https://cargo.com/roles", "Admin"));
             });
 
             // In production, the Angular files will be served from this directory
