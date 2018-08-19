@@ -1,7 +1,6 @@
 import { JwtHelper } from "angular2-jwt";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { filter } from "rxjs/operators";
 import * as auth0 from "auth0-js";
 
 (window as any).global = window;
@@ -77,6 +76,13 @@ export class AuthService {
     this.readUserFromLocalStorage();
   }
 
+  public isAuthenticated(): boolean {
+    // Check whether the current time is past the
+    // Access Token's expiry time
+    const expiresAt = JSON.parse(localStorage.getItem("expires_at") || "{}");
+    return new Date().getTime() < expiresAt;
+  }
+
   public logout(): void {
     // Remove tokens and expiry time from localStorage
     localStorage.removeItem("token");
@@ -87,12 +93,5 @@ export class AuthService {
     this.roles = [];
     // Go back to the home route
     this.router.navigate(["/home"]);
-  }
-
-  public isAuthenticated(): boolean {
-    // Check whether the current time is past the
-    // Access Token's expiry time
-    const expiresAt = JSON.parse(localStorage.getItem("expires_at") || "{}");
-    return new Date().getTime() < expiresAt;
   }
 }

@@ -7,8 +7,7 @@ import { NgModule, ErrorHandler } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
-//import { UniversalModule } from "angular2-universal";
-//import { ChartModule } from "angular2-chartjs";
+import { ChartModule } from "angular2-chartjs";
 
 import { AppComponent } from "./app.component";
 import { CounterComponent } from "./components/counter/counter.component";
@@ -47,10 +46,9 @@ Raven.config(
     PaginationComponent
   ],
   imports: [
-    //UniversalModule,
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     FormsModule,
-    //ChartModule,
+    ChartModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     HttpClientModule,
