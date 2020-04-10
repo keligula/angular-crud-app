@@ -6,6 +6,7 @@
   "dependencies": {
     "@angular/cli": "^6.0.8",
     "debug": "^3.1.0",
+    "minimist": "^0.2.1",
     "raven-js": "^3.26.3",
     "underscore": "^1.9.1"
   },
