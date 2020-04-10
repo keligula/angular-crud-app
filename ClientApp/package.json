@@ -33,7 +33,7 @@
     "angular2-chartjs": "^0.5.1",
     "angular2-jwt": "^0.2.3",
     "aspnet-prerendering": "^3.0.1",
-    "auth0-js": "^9.7.3",
+    "auth0-js": "^9.13.2",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.7.2",
     "core-js": "^2.4.1",
