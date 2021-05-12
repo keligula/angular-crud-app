@@ -35,7 +35,7 @@
     "aspnet-prerendering": "^3.0.1",
     "auth0-js": "^9.13.2",
     "bootstrap": "^4.3.1",
-    "chart.js": "^2.7.2",
+    "chart.js": "^2.9.4",
     "core-js": "^2.4.1",
     "hoek": "^5.0.3",
     "ngx-toastr": "^8.8.0",
